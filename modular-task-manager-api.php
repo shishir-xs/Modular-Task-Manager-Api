@@ -71,10 +71,7 @@ final class ModularTaskManager
 
     public function initiate()
     {
-        self::manageConfig();
-        self::loadFunctions();
-
-        // Autoload classes
+        // Autoload classes - Must be registered BEFORE using any TaskManager classes
         spl_autoload_register(function ($class) {
             $prefix = 'TaskManager\\';
             $base_dir = self::$pluginDir . 'src/';
@@ -91,6 +88,10 @@ final class ModularTaskManager
                 require $file;
             }
         });
+
+        // Now we can use TaskManager classes
+        self::manageConfig();
+        self::loadFunctions();
 
         new \TaskManager\Boot();
     }
