@@ -2,8 +2,6 @@
 
 namespace TaskManager;
 
-use TaskManager\Modules;
-
 class Boot
 {
     public function __construct()
