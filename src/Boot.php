@@ -9,5 +9,6 @@ class Boot
         task_manager_config()->add('plugin.src_path', __DIR__);
         
         new Modules\Task\Provider();
+        new Modules\Admin\Provider();
     }
 }

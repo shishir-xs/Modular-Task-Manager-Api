@@ -1,0 +1,288 @@
+/* Task Manager Admin Styles */
+
+.task-manager-container {
+    background: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.task-manager-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.task-manager-header h2 {
+    margin: 0;
+    font-size: 23px;
+    font-weight: 400;
+}
+
+.task-manager-loading {
+    padding: 40px;
+    text-align: center;
+    color: #666;
+}
+
+/* Task List */
+.task-list {
+    margin-top: 20px;
+}
+
+.task-list-empty {
+    padding: 40px;
+    text-align: center;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.task-list-empty p {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Table Columns */
+.task-title-column {
+    width: 20%;
+}
+
+.task-description-column {
+    width: 30%;
+}
+
+.task-status-column {
+    width: 12%;
+}
+
+.task-priority-column {
+    width: 10%;
+}
+
+.task-date-column {
+    width: 13%;
+}
+
+.task-actions-column {
+    width: 15%;
+}
+
+.task-description-text {
+    color: #666;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Status Badges */
+.task-status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.task-status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.task-status-in-progress {
+    background: #cfe2ff;
+    color: #084298;
+}
+
+.task-status-completed {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+/* Priority Badges */
+.task-priority-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.task-priority-low {
+    background: #e7f3ff;
+    color: #0066cc;
+}
+
+.task-priority-medium {
+    background: #fff8e1;
+    color: #f57c00;
+}
+
+.task-priority-high {
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* Task Actions */
+.task-actions {
+    white-space: nowrap;
+}
+
+.task-actions .button {
+    margin-right: 5px;
+    margin-bottom: 0;
+}
+
+/* Task Form */
+.task-form-container {
+    background: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.task-form-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+.task-form-card h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.task-form .form-field {
+    margin-bottom: 20px;
+}
+
+.task-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.task-form .required {
+    color: #d63638;
+}
+
+.task-form input[type="text"],
+.task-form input[type="date"],
+.task-form textarea,
+.task-form select {
+    width: 100%;
+    max-width: 100%;
+}
+
+.task-form input.error,
+.task-form textarea.error,
+.task-form select.error {
+    border-color: #d63638;
+}
+
+.error-message {
+    color: #d63638;
+    font-size: 13px;
+    margin: 5px 0 0;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.form-actions {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.form-actions .button {
+    margin-right: 10px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 782px) {
+    .task-manager-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .task-manager-header .button {
+        margin-top: 10px;
+    }
+
+    .task-list table,
+    .task-list thead,
+    .task-list tbody,
+    .task-list th,
+    .task-list td,
+    .task-list tr {
+        display: block;
+    }
+
+    .task-list thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .task-list tr {
+        border: 1px solid #ddd;
+        margin-bottom: 10px;
+    }
+
+    .task-list td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .task-list td:before {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: 600;
+    }
+
+    .task-list td.task-title:before {
+        content: "Title:";
+    }
+
+    .task-list td.task-description:before {
+        content: "Description:";
+    }
+
+    .task-list td.task-status:before {
+        content: "Status:";
+    }
+
+    .task-list td.task-priority:before {
+        content: "Priority:";
+    }
+
+    .task-list td.task-due-date:before {
+        content: "Due Date:";
+    }
+
+    .task-list td.task-actions:before {
+        content: "Actions:";
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}

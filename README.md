@@ -1,6 +1,6 @@
 # 📋 Modular Task Manager API
 
-A WordPress plugin following modular architecture for task management with complete CRUD REST API.
+A WordPress plugin with modular architecture for task management featuring REST API **and React Admin Interface**.
 
 ## 🏗️ Architecture
 
@@ -9,6 +9,15 @@ This plugin follows the **booking-engine** plugin's modular architecture pattern
 ```
 modular-task-manager-api/
 ├── modular-task-manager-api.php    # Main plugin file
+├── assets/
+│   └── admin/                       # React admin frontend
+│       ├── src/                     # Source files
+│       │   ├── components/         # React components
+│       │   ├── services/           # API services
+│       │   └── styles/             # CSS styles
+│       ├── build/                  # Built assets
+│       ├── package.json            # Dependencies
+│       └── webpack.config.js       # Build config
 └── src/
     ├── Boot.php                     # Application bootstrap
     ├── Supports/                    # Support classes
@@ -20,6 +29,10 @@ modular-task-manager-api/
     ├── functions/
     │   └── helpers.php             # Helper functions
     └── Modules/
+        ├── Admin/                  # Admin UI module
+        │   ├── Provider.php        # Admin menu & assets
+        │   └── views/
+        │       └── admin-page.php  # Admin template
         └── Task/                   # Task module
             ├── Provider.php        # Module provider
             ├── Data/
@@ -34,6 +47,7 @@ modular-task-manager-api/
 
 ## 🚀 Features
 
+### Backend (REST API)
 - ✅ **Modular Architecture** - Following booking-engine pattern
 - ✅ **Complete CRUD Operations** - Create, Read, Update, Delete
 - ✅ **REST API** - WordPress REST API integration
@@ -42,6 +56,16 @@ modular-task-manager-api/
 - ✅ **Priority Levels** - low, medium, high, urgent
 - ✅ **User Authentication** - Secure endpoints
 - ✅ **Data Validation** - Input validation and sanitization
+
+### Frontend (React Admin UI)
+- ✅ **React-based Interface** - Modern, responsive UI
+- ✅ **WordPress Integration** - Seamless admin menu integration
+- ✅ **CRUD Interface** - Create, edit, delete tasks from admin panel
+- ✅ **Real-time Updates** - Instant UI updates after operations
+- ✅ **Form Validation** - Client-side validation with error messages
+- ✅ **Status & Priority Badges** - Color-coded visual indicators
+- ✅ **Mobile Responsive** - Works on all devices
+- ✅ **WordPress Styling** - Consistent with WordPress admin design
 
 ## 📊 Database Schema
 
@@ -276,10 +300,40 @@ URL: http://localhost/wp-atlas/wp-json/task-manager/v1/tasks/1
 
 ## 📦 Installation
 
+### Backend Setup
+
 1. Upload plugin to `wp-content/plugins/modular-task-manager-api/`
 2. Activate plugin from WordPress Admin → Plugins
 3. Database table will be created automatically
 4. API endpoints will be available immediately
+
+### Frontend Setup (Admin UI)
+
+See **[QUICK_START_ADMIN.md](QUICK_START_ADMIN.md)** for quick setup, or **[ADMIN_FRONTEND_SETUP.md](ADMIN_FRONTEND_SETUP.md)** for detailed guide.
+
+**Quick Steps:**
+```bash
+cd wp-content/plugins/modular-task-manager-api/assets/admin
+npm install
+npm run build
+```
+
+Then access **Dashboard → Tasks** menu in WordPress admin.
+
+## 🖥️ Using the Admin Interface
+
+1. **Access**: WordPress Admin → **Tasks** menu (left sidebar)
+2. **Create Task**: Click "Add New Task" button
+3. **Edit Task**: Click "Edit" on any task row
+4. **Delete Task**: Click "Delete" on any task (with confirmation)
+5. **View Tasks**: All tasks displayed in responsive table
+
+**Features:**
+- Form validation with error messages
+- Color-coded status badges (Pending, In Progress, Completed)
+- Priority indicators (Low, Medium, High)
+- Date picker for due dates
+- Mobile-responsive design
 
 ## 🛠️ Technology Stack
 

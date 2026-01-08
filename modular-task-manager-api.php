@@ -121,6 +121,7 @@ final class ModularTaskManager
         $config->add('plugin.name', 'Modular Task Manager');
         $config->add('plugin.version', TASK_MANAGER_VERSION);
         $config->add('plugin.path', trailingslashit(self::$pluginDir));
+        $config->add('plugin.base_path', self::$pluginDir);
         $config->add('plugin.file', __FILE__);
         $config->add('plugin.url', trailingslashit(plugin_dir_url(__FILE__)));
         $config->add('plugin.prefix', TASK_MANAGER_PREFIX);
