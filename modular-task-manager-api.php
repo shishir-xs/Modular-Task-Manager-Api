@@ -1,5 +1,7 @@
 <?php
 
+use TaskManager\Supports\Config;
+
 defined('ABSPATH') || exit;
 
 /**
@@ -30,8 +32,16 @@ if (!defined('TASK_MANAGER_DB_PREFIX')) {
 
 final class ModularTaskManager
 {
+    // ============================================================
+    // Properties
+    // ============================================================
+
     protected static $pluginDir;
     protected static $initiated;
+
+    // ============================================================
+    // Constructor & Initialization
+    // ============================================================
 
     public function __construct()
     {
@@ -46,14 +56,71 @@ final class ModularTaskManager
         register_deactivation_hook(__FILE__, [$this, 'deactivatePlugin']);
     }
 
+    /**
+     * Initialize the plugin components
+     * Runs on WordPress 'plugins_loaded' hook
+     */
+    public function initiate()
+    {
+        // 1. Register autoloader
+        spl_autoload_register([$this, 'autoloadClasses']);
+        
+        // 2. Setup configuration
+        self::manageConfig();
+        
+        // 3. Load helper functions
+        self::loadFunctions();
+        
+        // 4. Bootstrap the plugin
+        new \TaskManager\Boot();
+    }
+
+    // ============================================================
+    // Autoloader
+    // ============================================================
+
+    /**
+     * PSR-4 autoloader for TaskManager namespace
+     * Automatically loads class files when they are used
+     */
+    public function autoloadClasses($class)
+    {
+        $prefix = 'TaskManager\\';
+        $base_dir = self::$pluginDir . 'src/';
+
+        // Exit if class doesn't start with the prefix
+        $len = strlen($prefix);
+        if (strncmp($prefix, $class, $len) !== 0) {
+            return;
+        }
+
+        // Remove namespace prefix to get relative class path
+        $relative_class = substr($class, $len);
+        
+        // Convert namespace to file path
+        $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+
+        if (file_exists($file)) {
+            require $file;
+        }
+    }
+
+    // ============================================================
+    // Configuration & Setup
+    // ============================================================
+
+    /**
+     * Setup plugin configuration
+     * Stores all plugin settings in central Config instance
+     */
     public static function manageConfig()
     {
-        $config = \TaskManager\Supports\Config::instance();
+        $config = Config::instance();
 
         $config->add('plugin.name', 'Modular Task Manager');
         $config->add('plugin.version', TASK_MANAGER_VERSION);
         $config->add('plugin.path', trailingslashit(plugin_dir_path(__FILE__)));
-        $config->add('plugin.url', trailingslashit(plugin_dir_url(__FILE__))); // ✅ Fixed: Removed 'key:' named argument
+        $config->add('plugin.url', trailingslashit(plugin_dir_url(__FILE__)));
         $config->add('plugin.public_url', trailingslashit(plugin_dir_url(__FILE__)) . 'public/');
         $config->add('plugin.public_path', trailingslashit(plugin_dir_path(__FILE__)) . 'public/');
         $config->add('plugin.text_domain', 'modular-task-manager');
@@ -61,41 +128,24 @@ final class ModularTaskManager
         $config->add('plugin.file', __FILE__);
     }
 
+    /**
+     * Load all helper functions from src/functions directory
+     */
     public static function loadFunctions()
     {
-        // Include all files from functions directory: src/functions/*.php
         foreach (glob(self::$pluginDir . 'src/functions/*.php') as $file) {
             include_once $file;
         }
     }
 
-    public function initiate()
-    {
-        // Autoload classes - Must be registered BEFORE using any TaskManager classes
-        spl_autoload_register(function ($class) {
-            $prefix = 'TaskManager\\';
-            $base_dir = self::$pluginDir . 'src/';
+    // ============================================================
+    // WordPress Hooks - Activation & Deactivation
+    // ============================================================
 
-            $len = strlen($prefix);
-            if (strncmp($prefix, $class, $len) !== 0) {
-                return;
-            }
-
-            $relative_class = substr($class, $len);
-            $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
-
-            if (file_exists($file)) {
-                require $file;
-            }
-        });
-
-        // Now we can use TaskManager classes
-        self::manageConfig();
-        self::loadFunctions();
-
-        new \TaskManager\Boot();
-    }
-
+    /**
+     * Plugin activation hook
+     * Creates database tables and sets up initial configuration
+     */
     public function activatePlugin()
     {
         global $wpdb;
@@ -128,6 +178,10 @@ final class ModularTaskManager
         flush_rewrite_rules();
     }
 
+    /**
+     * Plugin deactivation hook
+     * Cleanup tasks on plugin deactivation
+     */
     public function deactivatePlugin()
     {
         // Flush rewrite rules
