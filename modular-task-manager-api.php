@@ -1,5 +1,6 @@
 <?php
 
+use TaskManager\Boot;
 use TaskManager\Supports\Config;
 
 defined('ABSPATH') || exit;
@@ -72,7 +73,7 @@ final class ModularTaskManager
         self::loadFunctions();
         
         // 4. Bootstrap the plugin
-        new \TaskManager\Boot();
+        new Boot();
     }
 
     // ============================================================
@@ -119,14 +120,13 @@ final class ModularTaskManager
 
         $config->add('plugin.name', 'Modular Task Manager');
         $config->add('plugin.version', TASK_MANAGER_VERSION);
-        $config->add('plugin.path', trailingslashit(plugin_dir_path(__FILE__)));
-        $config->add('plugin.url', trailingslashit(plugin_dir_url(__FILE__)));
-        $config->add('plugin.public_url', trailingslashit(plugin_dir_url(__FILE__)) . 'public/');
-        $config->add('plugin.public_path', trailingslashit(plugin_dir_path(__FILE__)) . 'public/');
-        $config->add('plugin.text_domain', 'modular-task-manager');
-        $config->add('plugin.prefix', TASK_MANAGER_PREFIX);
+        $config->add('plugin.path', trailingslashit(self::$pluginDir));
         $config->add('plugin.file', __FILE__);
+        $config->add('plugin.url', trailingslashit(plugin_dir_url(__FILE__)));
+        $config->add('plugin.prefix', TASK_MANAGER_PREFIX);
+        $config->add('plugin.src_path', __DIR__);
     }
+
 
     /**
      * Load all helper functions from src/functions directory
